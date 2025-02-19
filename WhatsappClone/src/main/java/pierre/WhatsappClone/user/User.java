@@ -33,6 +33,7 @@ public class User extends BaseAuditingEntity {
     @OneToMany(mappedBy = "recipient")
     private List<Chat> chatAsRecipient;
 
+    //@transient is for temporary operations, not to store in DB
     @Transient
     public boolean isUserOnline() {
         //pour comprendre : si le user est lastseen a 10:04
