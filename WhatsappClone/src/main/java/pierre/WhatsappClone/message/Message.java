@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pierre.WhatsappClone.chat.Chat;
 import pierre.WhatsappClone.common.BaseAuditingEntity;
 
 import java.awt.*;
@@ -28,7 +29,9 @@ public class Message extends BaseAuditingEntity {
     private MessageState state;
     @Enumerated(EnumType.STRING)
     private MessageType type;
-
+    @ManyToOne
+    @JoinColumn(name="chat_id")
+    private Chat chat;
     @Column(name= "sender_id", nullable = false)
     private String senderId;
     @Column(name = "receiver_id", nullable = false)
