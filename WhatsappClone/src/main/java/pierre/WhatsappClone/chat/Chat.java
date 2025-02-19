@@ -70,7 +70,7 @@ public class Chat extends BaseAuditingEntity {
 
     @Transient
     public LocalDateTime getLastMessageTime(){
-        if(messages.get(0).getType() != MessageType.TEXT){
+        if(messages != null && !messages.isEmpty()){
             return messages.get(0).getCreatedDate();
         }
         return null;
