@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pierre.WhatsappClone.common.BaseAuditingEntity;
 import pierre.WhatsappClone.message.Message;
+import pierre.WhatsappClone.message.MessageState;
+import pierre.WhatsappClone.message.MessageType;
 import pierre.WhatsappClone.user.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -43,4 +46,35 @@ public class Chat extends BaseAuditingEntity {
         }
         return recipient.getFirstName() + " " + recipient.getLastName();
     }
+
+    @Transient
+    public long getUnreadMessages(final String senderId){
+        return messages
+                .stream()
+                .filter(m -> m.getReceiverId().equals(senderId))
+                .filter(m -> MessageState.SENT == m.getState())
+                .count();
+
+    }
+
+    @Transient
+    public String getLastMessages(){
+        if(messages != null && !messages.isEmpty()){
+            if(messages.get(0).getType() != MessageType.TEXT){
+                return "Attachment";
+            }
+            return messages.get(0).getContent();
+        }
+        return null;
+    }
+
+    @Transient
+    public LocalDateTime getLastMessageTime(){
+        if(messages.get(0).getType() != MessageType.TEXT){
+            return messages.get(0).getCreatedDate();
+        }
+        return null;
+    }
+
+
 }
